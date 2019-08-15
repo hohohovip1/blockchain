@@ -1,11 +1,12 @@
-const fs = require('fs');
 const express = require("express");
+const app = express();
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const helmet = require("helmet");
 const cors = require("cors");
 const compression = require("compression");
 
-const configExpressServer = (app, {useCors = false}) => {
+const configExpressServer = ({useCors = false}) => {
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json({
         limit: '2mb'
@@ -47,7 +48,7 @@ const configExpressServer = (app, {useCors = false}) => {
     if (!fs.existsSync(uploadDir + "/img")) {
         fs.mkdirSync(uploadDir + "/img");
     }
-
+    return app;
 };
 
 

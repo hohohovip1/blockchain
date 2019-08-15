@@ -34,7 +34,6 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin(envKeys),
     new HtmlWebPackPlugin({
-      title: "hehehe",
       inject: true,
       template: "./public/index.html",
       filename: "./index.html",

@@ -30,7 +30,6 @@ module.exports = {
         new webpack.DefinePlugin(envKeys),
         new AsyncChunkNames(),
         new HtmlWebPackPlugin({
-            title: "hehehe prod",
             inject: true,
             template: "./public/index.html",
             filename: "./index.html",

@@ -49,3 +49,7 @@ gulp.task("dev", () => {
     }
 });
 
+gulp.task("build", () => {
+    stylusCompiler.compile(process.env.STATIC_DIR);
+});
+

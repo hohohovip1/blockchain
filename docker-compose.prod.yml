@@ -3,7 +3,9 @@ version: '3'
 services:
 
   react:
-    command: npm run build
+    command: >
+      sh -c "npm run build &&
+             gulp build"
     #remove this later
     ports: "2000:2000"
     env_file:

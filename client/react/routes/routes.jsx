@@ -1,5 +1,6 @@
 import React from "react";
 
+
 export class MainRoute extends React.Component{
     constructor(props){
         super(props);
@@ -7,6 +8,7 @@ export class MainRoute extends React.Component{
         };
     };
     render(){
+        console.log(process.env.STATIC_DIR)
         return(
             <div id="main-route">
                 Hehe

@@ -7,7 +7,6 @@ const fs = require("fs");
 const path = require("path");
 configExpressServer(app);
 app.use("/", routerConfig());
-console.log("wt")
 app.use(require("./utils/error-handlers"));
 let server = https.createServer(
     {
@@ -24,6 +23,7 @@ let server = https.createServer(
             )
         )
     },
+    app
 );
 server.listen(process.env.PORT, () => {
     console.log(`Server running on port: ${process.env.PORT}`)

@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+
+  react:
+    command: npm run build
+    env_file:
+      - ./env/prod.env
+    restart: always

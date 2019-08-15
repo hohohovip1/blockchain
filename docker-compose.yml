@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  react:
+    container_name: react
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /react-new/node_modules
+      - .:/react-new

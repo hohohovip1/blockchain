@@ -16,6 +16,9 @@ module.exports = {
     entry: {
         loader: ["@babel/polyfill", "./client/react/loader.jsx"]
     },
+    watchOptions: {
+        ignored: ['node_modules', 'scripts', 'server']
+    },
     output: {
         filename: 'bundle.js',
         chunkFilename: '[name].bundle.js',
@@ -73,6 +76,14 @@ module.exports = {
         rules: [
 
             {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader"
+                    }
+                ]
+            },
+            {
                 test: /\.jsx?$/,
                 use: [
                     {
@@ -90,7 +101,21 @@ module.exports = {
                     "css-loader",
                     "stylus-loader"
                 ]
-            }
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg|webp)$/i,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8000, // Convert images < 8kb to base64 strings
+                        name: 'images/[hash]-[name].[ext]'
+                    }
+                }]
+            },
+            {
+                test: /\.(eot|ttf|woff|woff2|otf)$/,
+                use: `file-loader?name=[path][hash].[ext]&context=${path.resolve(__dirname, 'client')}`
+            },
         ]
     }
 };

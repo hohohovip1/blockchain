@@ -4,7 +4,8 @@ services:
 
   react:
     command: >
-      sh -c "npm run build &&
+      sh -c "npm run copy-assets &&
+             npm run build &&
              gulp build"
     #remove this later
     ports: "2000:2000"

@@ -29,18 +29,6 @@ module.exports = {
     resolve: {
         extensions: [".js", ".jsx", ".styl"]
     },
-    plugins: [
-        new webpack.DefinePlugin(envKeys),
-        new AsyncChunkNames(),
-        new HtmlWebPackPlugin({
-            inject: true,
-            template: "./public/index.html",
-            filename: "./index.html",
-            minify: {
-                removeComments: true,
-            }
-        })
-    ],
     optimization: {
         minimizer: [
             new UglifyJsPlugin({
@@ -64,14 +52,22 @@ module.exports = {
                     reuseExistingChunk: true,
                     enforce: true
                 },
-                vendor: {
-                    chunks: 'all',
-                    name: "vendor",
-                    test: /node_modules/
-                }
+                vendor: {test: /[\\/]node_modules[\\/]/, name: "vendor", chunks: "all"},
             }
         }
     },
+    plugins: [
+        new webpack.DefinePlugin(envKeys),
+        new HtmlWebPackPlugin({
+            inject: true,
+            template: "./public/index.html",
+            filename: "./index.html",
+            minify: {
+                removeComments: true,
+            }
+        }),
+        new AsyncChunkNames(),
+    ],
     module: {
         rules: [
 

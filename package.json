@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "env-cmd ./dev.env gulp dev",
+    "dev": "gulp dev",
     "wp": "webpack --watch",
-    "build": "webpack -p config ./webpack.prod.config.js",
+    "prod": "gulp prod",
     "start": "nodemon server/server.js --ext js --exec babel-node --ignore react",
     "test": "nodemon test.js",
     "docker-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",

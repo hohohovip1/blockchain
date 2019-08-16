@@ -7,7 +7,6 @@ const path = require("path");
 const app = configExpressServer({useCors: false});
 const initDb = require("./config/db");
 
-
 initDb().then(db => {
     app.use("/", routerConfig(db));
     app.use(require("./utils/error-handlers"));

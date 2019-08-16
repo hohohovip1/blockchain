@@ -9,28 +9,25 @@ const stylusCompiler = {
         require("./compile-stylus").createCompiler(desk).watch();
     },
     compile: (desk) => {
-        return Promise.all([
-            require("./compile-stylus").createCompiler(desk).compile(),
-        ]);
+        return require("./compile-stylus").createCompiler(desk).compile();
     }
 };
 
-const startServer = () => {
-    nodemon({
+const startServer = async () => {
+    return nodemon({
         script: './server/server.js',
         ext: 'js',
         ignore: [
             ".idea/",
             ".git/",
             "gulpfile.js",
-            "client/",
-            "public/",
-            "node_modules/",
+            "client/*",
+            "public/*",
             "webpack.config.js",
             "webpack.prod.config.js",
-            "build/",
-            "dist/",
-            "uploads/"
+            "build/*",
+            "dist/*",
+            "uploads/*"
         ],
         args: ["--legacyWatch=true"],
         env: {'NODE_ENV': 'development'},
@@ -40,16 +37,24 @@ const startServer = () => {
 };
 
 gulp.task("dev", () => {
-    startServer();
-    stylusCompiler.watch(process.env.STATIC_DIR);
-    if (!/^win/.test(process.platform)) { // linux
-        spawn("webpack", ["--watch"], {stdio: "inherit"});
-    } else {
-        spawn('cmd', ['/s', "/c", "webpack", "--w"], {stdio: "inherit"});
-    }
+    return startServer().then(() => {
+        stylusCompiler.watch(process.env.STATIC_DIR);
+        if (!/^win/.test(process.platform)) { // linux
+            spawn("webpack", ["--watch"], {stdio: "inherit"});
+        } else {
+            spawn('cmd', ['/s', "/c", "webpack", "--w"], {stdio: "inherit"});
+        }
+    });
+
 });
 
-gulp.task("build", () => {
-    stylusCompiler.compile(process.env.STATIC_DIR);
+gulp.task("prod", () => {
+    return startServer().then(() => stylusCompiler.compile(process.env.STATIC_DIR).then(() => {
+        if (!/^win/.test(process.platform)) { // linux
+            return spawn("webpack", ["--config ./webpack.prod.config.js"], {stdio: "inherit"});
+        } else {
+            return spawn('cmd', ['/s', "/c", "webpack", "--config ./webpack.prod.config.js"], {stdio: "inherit"});
+        }
+    }));
 });
 

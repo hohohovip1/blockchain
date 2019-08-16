@@ -11,7 +11,6 @@ export class MainRoute extends React.Component{
         console.log(process.env.STATIC_DIR)
         return(
             <div id="main-route">
-                <img src="/assets/media/download.png"/>
             </div>
         );
     }

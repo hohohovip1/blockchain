@@ -38,7 +38,7 @@ const startServer = async () => {
 
 gulp.task("dev", () => {
     return startServer().then(() => {
-        stylusCompiler.watch(process.env.STATIC_DIR);
+        stylusCompiler.watch(process.env.STATIC_DIR || "build");
         if (!/^win/.test(process.platform)) { // linux
             spawn("webpack", ["--watch"], {stdio: "inherit"});
         } else {

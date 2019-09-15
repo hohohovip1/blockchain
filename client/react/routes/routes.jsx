@@ -2,6 +2,7 @@ import React from "react";
 const NodeRSA = require('node-rsa');
 const key = new NodeRSA({ b: 512 });
 const keyPair = key.generateKeyPair();
+var SHA256 = require("crypto-js/sha256");
 
 export class MainRoute extends React.Component{
     constructor(props){
@@ -17,13 +18,17 @@ export class MainRoute extends React.Component{
 handleEncrypt = () => {
     let {text} = this.state;
     const encryptedText = keyPair.encrypt(text, 'base64');
-    this.setState({encryptedText,otherEnText: encryptedText});
+    this.setState({encryptedText: encryptedText,otherEnText: encryptedText});
 }
 
 handleDecrypt = () => {
-    let {otherEnText} = this.setState;
+    let {otherEnText} = this.state;
     const decrypted = keyPair.decrypt(otherEnText, 'utf8');
     this.setState({result: decrypted});
+}
+
+handleHash = () => {
+
 }
     render(){
         console.log(process.env.STATIC_DIR || "build");
@@ -35,10 +40,13 @@ handleDecrypt = () => {
                 <input type="text" id="text" name="text" value={text} onChange={e => this.setState({text: e.target.value})} />
                 <button onClick={this.handleEncrypt}>Encrypt</button>
                 <div className="textBox">{encryptedText}</div>
-                <label htmlFor="decryptText">Encrypted Text</label>
+                <label htmlFor="decryptText">Encrypted text</label>
                 <input type="text" name="decryptText" value={otherEnText} onChange={e => this.setState({otherEnText: e.target.value})}/>
                 <button onClick={this.handleDecrypt}>Decrypt</button>
-                <div>{result}</div>
+                <div className="result">Kết quả giải mã: {result}</div>
+                <br>
+                <label htmlFor="hash"></label>
+                <button onClick="this.handleHash">Hash</button>
             </div>
         );
     }

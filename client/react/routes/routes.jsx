@@ -55,10 +55,10 @@ handleHash = () => {
         return(
             <div id="main-route">
                 <div style={{ marginBottom: "30px" }}>
+                    <button onClick={() => { this.getKeyPair() }}>Generate key pair</button>
+                    <br/>
                     <button onClick={() => this.setState({ ...this.initData })}>Reset</button>
-                    <button style={{ marginLeft: "30px" }} onClick={() => {
-                        this.getKeyPair()
-                    }}>Generate key pair</button>
+                    
                 </div>
                 <div className="decrypting">
                     <label htmlFor="text">Nhập text:</label>

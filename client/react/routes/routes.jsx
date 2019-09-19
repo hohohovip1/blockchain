@@ -42,7 +42,7 @@ handleSign = () => {
 
 handleValidateSign = () => {
     let { signText, message } = this.state;
-    this.setState({ isvalidSign: this.keyPair.verify(message, signText, "utf8", "base64") ? 2 : 1 }) ;
+    this.setState({ isValidSign: this.keyPair.verify(message, signText, "utf8", "base64") ? 2 : 1 }) ;
 }
 
 handleDecrypt = () => {
@@ -95,12 +95,12 @@ handleHash = () => {
                     <div className="textBox" name="sign">{signText}</div> 
                     <label htmlFor="otherHash">Validate Hash:</label>
                     <input type="text" name="otherHash" value = {otherHash} onChange={e=> this.setState({otherHash: e.target.value})}/>
-                    <button onClick={this.handleValidateHash}>Validate Hash:</button>
+                    <button onClick={this.handleValidateHash}>Validate Hash</button>
                     {isValidHash === 2 && "valid"}
                     {isValidHash === 1 && "invalid"}
                     <br/>
-                    <input type="text" name="otherText" value={message} onChange={e => this.setState({signText: e.target.value})}/>
-                    <button onClick={this.handleValidateSign}>Validate Sign:</button>
+                    <input type="text" name="otherText" value={signText} onChange={e => this.setState({signText: e.target.value})}/>
+                    <button onClick={this.handleValidateSign}>Validate Sign</button>
                     {isValidSign === 2 && "valid"}
                     {isValidSign === 1 && "invalid"}
                 </div>

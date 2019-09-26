@@ -12,6 +12,6 @@ let t2 = new Transaction({
     signature: "ok3"
 });
 
-console.log(new Block({
-    transactions: [t.getTransaction(),t2.getTransaction()], preHash: "ok"
-}));
+let b =new Block({
+                transactions: [t.getTransaction(),t2.getTransaction()], preHash: "ok"
+            })

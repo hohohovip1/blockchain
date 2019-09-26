@@ -6,8 +6,8 @@ function splitArray(arr) {
         arrClone = [...arrClone, arrClone[arrClone.length-1]];
     };
     let returned = [];
-    for (let i = 0 ; i < arrClone.length; i+=2) {
-        returned.push(arrClone[i], arrClone[i+1]);
+    for (let i = 0 ; i < arrClone.length - 1; i+=2) {
+        returned.push([arrClone[i], arrClone[i+1]]);
     }
     return returned;
 };
@@ -33,17 +33,20 @@ class Block {
     }
 
     generateRootHash (transactions){
+        
         return transactions.length === 1 ? transactions[0].hash : this.createMerkelRoot(transactions.map(each => each.hash));
     }
 
     createMerkelRoot(hashArr){
+        console.log(hashArr);
+        
         if (hashArr.length === 0) {
             return null;
         }
         if (hashArr.length === 1) {
             return hashArr[0];
         }
-        return this.createMerkelRoot(splitArray(hashArr.map((arr) => hashPair(arr[0], arr[1]))));
+        return this.createMerkelRoot(splitArray(hashArr).map((arr) => hashPair(arr[0], arr[1])));
     }
     
 };

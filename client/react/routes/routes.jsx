@@ -1,6 +1,6 @@
 import React from "react";
-import {Router, Switch, Route} from "react-router-dom"
-import {createBrowserHistory} from "history"
+import {Router, Switch, Route} from "react-router-dom";
+import {createBrowserHistory} from "history";
 export const customHistory = createBrowserHistory();
 import {CreateTransactionRoute} from "./create-transaction/create-transaction";
 

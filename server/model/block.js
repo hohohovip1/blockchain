@@ -16,13 +16,12 @@ function hashPair(h1, h2){
 };
 
 class Block {
-    constructor(data){
+    constructor(data = {}){
         let{
             nonce = 0,
-            transactions,
+            transactions = [],
             preHash = "",
             timeStamp = Date.now()
-
         } = data;
         //console.log(transactions);
         this.nonce = nonce;
@@ -30,6 +29,7 @@ class Block {
         this.preHash = preHash;
         this.timeStamp = timeStamp;
         this.merkelRootHash = this.generateRootHash(transactions);
+        this.hash = sha256(nonce + this.merkelRootHash + timeStamp).toString();
     }
 
     generateRootHash (transactions){
@@ -38,8 +38,6 @@ class Block {
     }
 
     createMerkelRoot(hashArr){
-        console.log(hashArr);
-        
         if (hashArr.length === 0) {
             return null;
         }
@@ -48,7 +46,16 @@ class Block {
         }
         return this.createMerkelRoot(splitArray(hashArr).map((arr) => hashPair(arr[0], arr[1])));
     }
-    
+    getBlockData(){
+        return{
+            nonce: this.nonce,
+            transactions: this.transactions,
+            preHash:this.preHash,
+            merkelRootHash:this.merkelRootHash,
+            hash:this.hash,
+            timeStamp:this.timeStamp
+        }
+    }
 };
 
 module.exports = Block;

@@ -32,7 +32,7 @@ class Block {
         this.hash = sha256(nonce + this.merkelRootHash + timeStamp).toString();
     }
 
-    generateRootHash (transactions){
+    generateRootHash(transactions){
         
         return transactions.length === 1 ? transactions[0].hash : this.createMerkelRoot(transactions.map(each => each.hash));
     }

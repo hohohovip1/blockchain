@@ -2,7 +2,7 @@ import React from "react";
 import {Router, Switch, Route} from "react-router-dom";
 import {createBrowserHistory} from "history";
 export const customHistory = createBrowserHistory();
-import {CreateTransactionRoute} from "./create-transaction/create-transaction";
+import {CreateTransactionRoute} from "./create-transaction-route/create-transaction-route";
 
 export class MainRoute extends React.Component {
     constructor(props) {

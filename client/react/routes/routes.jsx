@@ -3,6 +3,9 @@ import {Router, Switch, Route} from "react-router-dom";
 import {createBrowserHistory} from "history";
 export const customHistory = createBrowserHistory();
 import {CreateTransactionRoute} from "./create-transaction-route/create-transaction-route";
+import {CreateBlockRoute} from "./create-block-route/create-block-route";
+import {ViewPoolRoute} from "./view-pool-route/view-pool-route";
+import {ViewChainRoute} from "./view-chain-route/view-chain-route";
 
 export class MainRoute extends React.Component {
     constructor(props) {
@@ -24,10 +27,10 @@ export class MainRoute extends React.Component {
                     history={customHistory}
                 >
                     <Switch>
-                        {/* <Route exact path={"/"} component={ViewPoolRoute} /> */}
-                        <Route exact path={"/"} component={CreateTransactionRoute} />
-                        {/* <Route exact path={"/create-block"} component={CreateBlockRoute} /> */}
-                        {/* <Route exact path={"/view-chain"} component={ViewChainRoute} /> */}
+                        <Route exact path={"/create-transaction"} component={CreateTransactionRoute} />
+                        <Route exact path={"/"} component={ViewPoolRoute} />
+                        <Route exact path={"/create-block"} component={CreateBlockRoute} />
+                        <Route exact path={"/view-chain"} component={ViewChainRoute} />
                     </Switch>
                 </Router>
 

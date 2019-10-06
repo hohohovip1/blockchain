@@ -4,20 +4,20 @@ const path = require("path");
 class Pool{
     constructor(data){
         let tempArray = fs.readFileSync(path.resolve(__dirname, "../draft/pool.txt"), 'utf8');
-        let transactions = tempArray ? JSON.parse[tempArray] : [];
+        this.transactions = tempArray ? JSON.parse[tempArray] : [];
     }
     addTrans (trans){
-        transactions.push(trans);
-        fs.writeFileSync(path.resolve(__dirname,"./draft/pool.txt"), JSON.stringify(transactions));
+        this.transactions.push(trans);
+        fs.writeFileSync(path.resolve(__dirname, "../draft/pool.txt"), JSON.stringify(this.transactions));
     }
     getTrans(){
-        return transactions;
+        return this.transactions;
     }
     removeTrans(list){
-        transactions = transactions.filter(each => each.find(item => item.hash === each.hash));
+        this.transactions = this.transactions.filter(each => each.find(item => item.hash === each.hash));
         fs.writeFileSync(path.resolve(__dirname,"./draft/pool.txt"));
     }
 };
 const newPool = new Pool();
 
-module.exports = Pool;
+module.exports = newPool;

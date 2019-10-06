@@ -1,0 +1,31 @@
+.nav-bar{
+    position: fixed;
+    display: grid;
+    grid-template-columns: 300px auto;
+    grid-template-rows: 70px;
+    background-color: #343a40;
+    width: 100%;
+    grid-gap: 200px;
+    .brand{
+        justify-self: center;
+        align-self: center;
+        padding: auto;
+        font-size: 50px;
+    }
+    .navs{
+        display: grid;
+        grid-template-columns: repeat(4, 250px);
+        .each-nav{
+            justify-self: center;
+            align-self: center;
+            border: 1px solid white;
+            padding: 10px;
+            cursor: pointer;
+            width: 200px;
+            text-align: center;
+            &:hover{
+                background-color: lighten(#343a40, 40%);
+            }
+        }
+    }
+}

@@ -29,4 +29,4 @@ const testBlockChain = new BlockChain ({
     difficulty: 10
 });
 
-module.exports = BlockChain;
+module.exports = testBlockChain;

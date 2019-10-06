@@ -17,11 +17,7 @@ export class Navbar extends React.Component{
             },
             {
                 label: "Create block",
-                url:"/create-block"
-            },
-            {
-                label: "View pool",
-                url: "/"
+                url:"/"
             },
             {
                 label: "View Chain",

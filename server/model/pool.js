@@ -4,7 +4,8 @@ const path = require("path");
 class Pool{
     constructor(data){
         let tempArray = fs.readFileSync(path.resolve(__dirname, "../draft/pool.txt"), 'utf8');
-        this.transactions = tempArray ? JSON.parse[tempArray] : [];
+        this.transactions = tempArray ? JSON.parse(tempArray) : [];
+        // console.log(this.transactions);
     }
     addTrans (trans){
         this.transactions.push(trans);

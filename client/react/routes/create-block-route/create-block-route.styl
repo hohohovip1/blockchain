@@ -1,0 +1,30 @@
+.create-block{
+    display: grid;
+    grid-template-columns: 500px 800px;
+    width: 100%;
+    background-color: black ;
+    height: 700px;
+    grid-gap: 50px;
+    justify-content: center;
+    .trans-pool-part{
+        overflow-y: auto;
+        border: 1px solid black;
+        font-size: 15px;
+        h1{
+            margin-bottom: 30px; 
+        }
+        .transaction{
+            display: grid;
+            grid-template-columns: 90px calc(100% - 90px);
+            margin-bottom: 50px;
+            color: #33FF00;
+            .value{
+                white-space: pre-wrap;
+                word-wrap: break-word; 
+            }
+        }
+    }
+    .create-block-part{
+        border: 1px solid black;
+    }
+}

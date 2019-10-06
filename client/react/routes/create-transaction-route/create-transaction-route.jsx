@@ -16,13 +16,13 @@ export class CreateTransactionRoute extends React.Component {
 
     handleTransCreation = () => {
         let {sender,receive, amount, signature} = this.state;
-        TransApi.createTransaction({ sender, receive, amount, signature }).then(({ newTran }) => customHistory.push("/")).catch(err => console.log(err));
+        TransApi.createTransaction({ sender, receive, amount, signature }).then(({ newTran }) => customHistory.push("/create-transaction")).catch(err => console.log(err));
     }
 
     handleSign = () => {
         let { sender, receive, amount, signature } = this.state;
         TransApi.signTransaction({ sender, receive, amount, signature }).then(({ signature }) => {
-            this.setState({ signature})
+            this.setState({ signature});
         })
     }
 
@@ -43,11 +43,17 @@ export class CreateTransactionRoute extends React.Component {
 
                     <label htmlFor="signature">Signature</label>
                     <p className="signature">{signature}</p>
-
-                    <button className="sign-part" onClick={this.handleSign}>
-                        Sign
-                    </button>
-                    <button className="create-part" onClick={this.handleTransCreation}>
+                    {signature?(
+                        <button className="sign-part" onClick={() => this.setState({sender:"", receive:"",amount:0,signature:""})}>
+                            Reset
+                        </button>
+                    ):(
+                            <button className = "sign-part" onClick = {this.handleSign}>
+                                Sign
+                            </button>
+                    )}
+                    
+                    <button className="create-part" onClick={this.handleTransCreation} disabled={!signature}>
                         Create
                     </button>
                     

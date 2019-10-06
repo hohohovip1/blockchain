@@ -28,5 +28,13 @@ module.exports = () => {
         return res.status(200).json({ transPool: myPool.getTrans() });
     });
 
+    router.post("/verify-transaction", (req, res) => {
+        return res.status(200).json({ isValid: verifySignature(keyPair, req.body) })
+    });
+
+    router.post("/verify-blockchain", (req, res) => {
+        let info = verifyBlockchain(Blockchain.getBlockchainInfo());
+        return res.status(200).json({ ...info })
+    });
     return router;
 }

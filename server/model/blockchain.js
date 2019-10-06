@@ -11,7 +11,7 @@ class BlockChain {
         } = data;
         this.name = name;
         this.difficulty = difficulty;
-        let tempArray = fs.readFileSync(path.resolve(__dirname, "./draft/chain.txt"), 'utf8');
+        let tempArray = fs.readFileSync(path.resolve(__dirname, "../draft/chain.txt"), 'utf8');
         this.chain =  tempArray ? JSON.parse(tempArray) : [new createBlock().getBlockData()];
     }
     getBlockChainInfo(){ return  {name: this.name, chain: this.chain, difficulty: this.difficulty}};

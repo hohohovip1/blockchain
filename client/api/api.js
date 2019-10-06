@@ -1,4 +1,4 @@
-import {apiFactory} from "./api-factory/api-config";
+import {apiFactory} from "../api-factory/api-config";
 
 
 

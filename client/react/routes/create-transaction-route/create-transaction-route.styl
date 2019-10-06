@@ -1,5 +1,26 @@
+button{
+    width: 100px;
+    border-radius: 20px;
+}
 .create-transaction{
     display: grid;
-    grid-template-rows: repeat(3, 100px), 300px , 100px; 
+    grid-template-columns: 100px 300px;
+    grid-template-rows: repeat(3, 50px) 200px 50px auto; 
     background-color: red;
+    align-self: center;
+    grid-row: 4 / 6;
+    width: 500px;
+    margin: auto;
+    border: 1px solid black;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    .create-part{
+       justify-self: center;
+       height: 50px;
+    }
+    .signature{
+        word-wrap: break-word;
+        font-size: 14px;
+    }
 }

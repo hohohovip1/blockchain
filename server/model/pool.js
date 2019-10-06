@@ -3,11 +3,11 @@ const path = require("path");
 
 class Pool{
     constructor(data){
-        let tempArray = fs.readFileSync(path.resolve(__dirname, "./draft/pool.txt"), 'utf8');
+        let tempArray = fs.readFileSync(path.resolve(__dirname, "../draft/pool.txt"), 'utf8');
         let transactions = tempArray ? JSON.parse[tempArray] : [];
     }
-    addTrans (trains){
-        transactions.push(trains);
+    addTrans (trans){
+        transactions.push(trans);
         fs.writeFileSync(path.resolve(__dirname,"./draft/pool.txt"), JSON.stringify(transactions));
     }
     getTrans(){

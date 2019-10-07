@@ -25,9 +25,9 @@ class Transaction {
             hash: this.hash
         };
     };
+
     getHash() {
         return{hash};
     }
-    
 }
 module.exports = Transaction;

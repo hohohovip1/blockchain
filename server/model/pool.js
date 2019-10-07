@@ -16,7 +16,7 @@ class Pool{
     }
     removeTrans(list){
         this.transactions = this.transactions.filter(each => each.find(item => item.hash === each.hash));
-        fs.writeFileSync(path.resolve(__dirname,"./draft/pool.txt"));
+        fs.writeFileSync(path.resolve(__dirname,"../draft/pool.txt"));
     }
 };
 const newPool = new Pool();

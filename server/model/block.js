@@ -2,16 +2,16 @@ const sha256 = require ("crypto-js/sha256");
 
 function splitArray(arr) {
     let arrClone = [...arr];
-    if (arr.length%2 !== 0){
-        arrClone = [...arrClone, arrClone[arrClone.length-1]];
+    if (arr.length % 2 !== 0) {
+        arrClone = [...arrClone, arrClone[arrClone.length - 1]];
     };
     let returned = [];
-    for (let i = 0 ; i < arrClone.length - 1; i+=2) {
-        returned.push([arrClone[i], arrClone[i+1]]);
+    for (let i = 0; i < arrClone.length - 1; i += 2) {
+        returned.push([arrClone[i], arrClone[i + 1]]);
     }
     return returned;
 };
-function hashPair(h1, h2){
+function hashPair(h1, h2) {
     return sha256(h1 + h2).toString();
 };
 

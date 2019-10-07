@@ -44,7 +44,7 @@ export class CreateTransactionRoute extends React.Component {
                     <label htmlFor="signature">Signature</label>
                     <p className="signature">{signature}</p>
                     {signature?(
-                        <button className="sign-part" onClick={() => this.setState({sender:"", receive:"",amount:0,signature:""})}>
+                        <button className="sign-part" onClick={() => this.setState({sender:"Nova", receive:"", amount:0, signature:""})}>
                             Reset
                         </button>
                     ):(

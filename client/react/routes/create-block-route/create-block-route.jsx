@@ -19,7 +19,7 @@ export class CreateBlockRoute extends React.Component{
         };
         TransApi.getTransaction().then(({transPool}) => {this.setState({transPool})});
     }
-    handleCheckAll = () =>{
+    handleCheckAll = () => {
         let {transPool} = this.state;
         let result = [];
         this.setState({ validateAll: true });
@@ -43,11 +43,20 @@ export class CreateBlockRoute extends React.Component{
      
         VerifyApi.verifySignature(transaction).then(({isValid}) => {
             validateMap[transaction.hash] = isValid ? 1 : 0;
-            console.log(Object.keys(validateMap));
-            
+            //console.log(Object.keys(validateMap));
             this.setState({ validateMap });
         });
     }
+
+    handleMineBlock = () => {
+        console.log("ok");
+        let {transPool, validateMap} = this.state;
+        
+        let block = [];
+        block = transPool.filter(each => validateMap[each.hash] === 1);
+        console.log(block);
+    };
+
     render(){
         const {hash, preHash, rootHash, nonce, transPool} = this.state;
         let mapKeys = Object.keys(this.state.validateMap);
@@ -105,18 +114,17 @@ export class CreateBlockRoute extends React.Component{
                         checkAll
                     </button>
                     <div>
-                        {/* {this.state.transPool.filter(each => this.state.validateMap[each.hash] === 1)} */}
-                        
-                        {this.state.transPool.filter(each => mapKeys.includes(each.hash)).length === this.state.transPool.length  && (
-                            <button></button>
+                        { 
+                            this.state.transPool.filter(each => mapKeys.includes(each.hash)).length === this.state.transPool.length  && (
+                                <button className="create-block-button" onClick={() => this.handleMineBlock}>Create Block</button>
                         )
-
-                        }
-                        {/* {
+                            /* 
                             Object.keys(this.state.validateMap).length === this.state.transPool.length && (
                                 <button></button>
                             )
-                        } */}
+                             */
+                        }
+                     
                     </div>
                 </div>
             </MainLayout>            

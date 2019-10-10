@@ -14,7 +14,8 @@ export class CreateBlockRoute extends React.Component{
             nonce: 0,
             transPool: [],
             validateMap: {},
-            validateAll: false
+            validateAll: false,
+            block:[]
 
         };
         TransApi.getTransaction().then(({transPool}) => {this.setState({transPool})});
@@ -48,17 +49,26 @@ export class CreateBlockRoute extends React.Component{
         });
     }
 
+    handleCreateBlock = () => {
+        let {transPool, validateMap, block} = this.state;
+        let mapKeys = Object.keys(validateMap);
+        
+        Block = transPool.filter(each => mapKeys.includes(each.hash));
+        console.log(Block);
+    }
+
     handleMineBlock = () => {
         console.log("ok");
         let {transPool, validateMap} = this.state;
-        
         let block = [];
-        block = transPool.filter(each => validateMap[each.hash] === 1);
+        block = transPool.filter(each => {validateMap[each.hash] === 1});
+
         console.log(block);
+        console.log(i);
     };
 
     render(){
-        const {hash, preHash, rootHash, nonce, transPool} = this.state;
+        const {hash, preHash, rootHash, nonce, transPool, block} = this.state;
         let mapKeys = Object.keys(this.state.validateMap);
         return(
             <MainLayout>
@@ -78,14 +88,20 @@ export class CreateBlockRoute extends React.Component{
                                 <p className="label">Hash</p>
                                 <p className="value">{each.hash}</p>
 
-                                <p className="label">Sender</p>
-                                <p className="value">{each.sender}</p>
+                                <p className="label">Ma nhan vien</p>
+                                <p className="value">{each.maNhanVien}</p>
 
-                                <p className="label">Amount</p>
-                                <p className="value">{each.amount}</p>
+                                <p className="label">Ma sach</p>
+                                <p className="value">{each.maSach}</p>
                                 
-                                <p className="label">Receive</p>
-                                <p className="value">{each.receive}</p>
+                                <p className="label">Nguoi muon</p>
+                                <p className="value">{each.nguoiMuon}</p>
+
+                                <p className="label">Ngay muon</p>
+                                <p className="value">{each.ngayMuon}</p>
+
+                                <p className="label">Ngay tra</p>
+                                <p className="value">{each.ngayTra}</p>
 
                                 <p className="label">Signature</p>
                                 <p className="value">{each.signature}</p>
@@ -108,20 +124,32 @@ export class CreateBlockRoute extends React.Component{
                     </div>
                     <div className="create-block-part"> 
                         <h1>Create block</h1>
-                        
+                        {block.length ? block.map(each =>{
+                            return(
+                                <div>
+                                    
+                                </div>
+                            )
+
+                            })
+
+                         : <p>dfsd</p>}
                     </div>
                     <button className="checkAll" onClick={() => this.handleCheckAll()}>
                         checkAll
                     </button>
                     <div>
                         { 
-                            this.state.transPool.filter(each => mapKeys.includes(each.hash)).length === this.state.transPool.length  && (
-                                <button className="create-block-button" onClick={() => this.handleMineBlock}>Create Block</button>
-                        )
+                            <button className="create-block-button" disabled={this.state.transPool.filter(each => mapKeys.includes(each.hash)).length < 2}  onClick={() => this.handleCreateBlock()}>Create Block</button>
+                           
                             /* 
                             Object.keys(this.state.validateMap).length === this.state.transPool.length && (
                                 <button></button>
                             )
+
+                             this.state.transPool.filter(each => mapKeys.includes(each.hash)).length === this.state.transPool.length  && (
+                                <button className="create-block-button" onClick={() => this.handleMineBlock}>Create Block</button>
+                        )
                              */
                         }
                      

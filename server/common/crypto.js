@@ -17,8 +17,8 @@ let hashPair = (h1, h2) => {
 };
 
 const verifySignature = (keyPair, transaction) => {
-    let { sender, receiver, amount, signature } = transaction;
-    return keyPair.verify(sender + " " + receiver + " " + amount, signature, "utf8", "base64");
+    let { maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra, signature } = transaction;
+    return keyPair.verify(maNhanVien + " " + maSach + " " + nguoiMuon, signature, "utf8", "base64");
 };
 
 let createMerkelRoot = (hashArr) => {

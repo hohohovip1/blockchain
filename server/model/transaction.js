@@ -2,24 +2,30 @@ const sha256 = require ("crypto-js/sha256");
 class Transaction {
     constructor(data){
         let {
-            sender,
-            receiver,
-            amount,
+            maNhanVien,
+            maSach,
+            nguoiMuon,
+            ngayMuon,
+            ngayTra,
             signature
         } = data;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.amount = amount;
+        this.maNhanVien = maNhanVien;
+        this.maSach = maSach;
+        this.nguoiMuon = nguoiMuon;
+        this.ngayMuon = ngayMuon;
+        this.ngayTra = ngayTra;
         this.signature = signature;
         this.timeStamp = Date.now();
-        this.hash = sha256(amount + this.timeStamp + signature).toString();
+        this.hash = sha256(maNhanVien + maSach + nguoiMuon + this.timeStamp + signature).toString();
     }
 
     getTransaction() {
         return {
-            sender: this.sender,
-            receive: this.receiver,
-            amount: this.amount,
+            maNhanVien: this.maNhanVien,
+            maSach: this.maSach,
+            nguoiMuon: this.nguoiMuon,
+            ngayMuon: this.ngayMuon,
+            ngayTra: this.ngayTra,
             signature: this.signature,
             timeStamp: this.timeStamp,
             hash: this.hash

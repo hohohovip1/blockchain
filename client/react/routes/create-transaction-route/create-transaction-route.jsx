@@ -7,44 +7,58 @@ export class CreateTransactionRoute extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sender: "Nova",
-            receive: "",
-            amount: 0,
+            maNhanVien: "",
+            maSach: "",
+            nguoiMuon: "",
+            ngayMuon: "",
+            ngayTra:"",
             signature: ""
         };
     }
 
     handleTransCreation = () => {
-        let {sender,receive, amount, signature} = this.state;
-        TransApi.createTransaction({ sender, receive, amount, signature }).then(({ newTran }) => customHistory.push("/create-transaction")).catch(err => console.log(err));
+        let {maNhanVien,maSach,nguoiMuon,ngayMuon,ngayTra, signature} = this.state;
+        TransApi.createTransaction({ maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra, signature }).then(({ newTran }) => customHistory.push("/create-transaction")).catch(err => console.log(err));
     }
 
     handleSign = () => {
-        let { sender, receive, amount, signature } = this.state;
-        TransApi.signTransaction({ sender, receive, amount, signature }).then(({ signature }) => {
-            this.setState({ signature});
+        let { maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra } = this.state;
+        TransApi.signTransaction({ maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra }).then(({ signature }) => {
+            this.setState({ signature });
         })
     }
 
     render() {
-        let {sender, receive, amount, signature} = this.state;
+        let { maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra, signature } = this.state;
         // console.log(this.state.sender);
         return (
             <MainLayout>
                 <div className="create-transaction">
-                    <label htmlFor="sender">Sender</label>
-                    <input name="sender" type="text" value={sender} onChange={e => { this.setState({ sender: e.target.value }); }}/> 
+                    <label htmlFor="ma-nhan-vien">Nhap ma nhan vien:</label>
+                    <input name="ma-nhan-vien" type="text" value={maNhanVien} onChange={e => { this.setState({ maNhanVien: e.target.value }); }}/> 
 
-                    <label htmlFor="receive">Receive</label>
-                    <input name="receive" type="text" value={receive} onChange={e => { this.setState({ receive: e.target.value }); }} />
+                    <label htmlFor="ma-sach">Nhap ma sach:</label>
+                    <input name="ma-sach" type="text" value={maSach} onChange={e => { this.setState({ maSach: e.target.value }); }} />
 
-                    <label htmlFor="amount">Amount</label>
-                    <input name="amount" type="number" value={amount} onChange={e => { this.setState({ amount: e.target.value }); }} />
+                    <label htmlFor="nguoi-muon">Nhap nguoi muon sach:</label>
+                    <input name="nguoi-muon" type="text" value={nguoiMuon} onChange={e => { this.setState({ nguoiMuon: e.target.value }); }} />
+
+                    <label htmlFor="ngay-muon">Nhap ngay muon sach:</label>
+                    <input name="nguoi-muon" type="date" value={ngayMuon} onChange={e => { this.setState({ ngayMuon: e.target.value.toString() }); }} />
+
+                    <label htmlFor="ngay-tra">Nhap ngay tra sach:</label>
+                    <input name="ngay-tra" type="date" value={ngayTra} onChange={e => { this.setState({ ngayTra: e.target.value.toString() }); }} />
 
                     <label htmlFor="signature">Signature</label>
                     <p className="signature">{signature}</p>
                     {signature?(
-                        <button className="sign-part" onClick={() => this.setState({sender:"Nova", receive:"", amount:0, signature:""})}>
+                        <button className="sign-part" onClick={() => this.setState({
+                            maNhanVien: "",
+                            maSach: "",
+                            nguoiMuon: "",
+                            ngayMuon: "",
+                            ngayTra: "",
+                            signature: ""})}>
                             Reset
                         </button>
                     ):(

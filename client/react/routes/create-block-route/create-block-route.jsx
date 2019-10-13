@@ -2,7 +2,12 @@ import React from "react";
 import  {MainLayout} from "../../layout/main-layout/main-layout";
 import { TransApi } from "../../../api/common/trans-api";
 import { VerifyApi } from "../../../api/common/verify-api";
+import { BlockchainApi } from "../../../api/common/blockchain-api";
 import classnames from "classnames";
+import hexToBinary from "hex-to-binary"
+import { wait } from "../../../common/utils";
+import moment from "moment";
+import { calculateHash } from "../../../common/crypto";
 
 export class CreateBlockRoute extends React.Component{
     constructor(props){
@@ -15,7 +20,9 @@ export class CreateBlockRoute extends React.Component{
             transPool: [],
             validateMap: {},
             validateAll: false,
-            block:[]
+            mining: false,
+            difficulty: 10,
+            block: []
 
         };
         TransApi.getTransaction().then(({transPool}) => {this.setState({transPool})});
@@ -49,24 +56,32 @@ export class CreateBlockRoute extends React.Component{
         });
     }
 
-    handleCreateBlock = () => {
-        let {transPool, validateMap, block} = this.state;
-        let mapKeys = Object.keys(validateMap);
-        
-        Block = transPool.filter(each => mapKeys.includes(each.hash));
-        console.log(Block);
-    }
 
-    handleMineBlock = () => {
-        console.log("ok");
-        let {transPool, validateMap} = this.state;
-        let block = [];
-        block = transPool.filter(each => {validateMap[each.hash] === 1});
-
-        console.log(block);
-        console.log(i);
+    handleMineBlock = async () => {
+        let { transPool, validateMap, difficulty, block } = this.state;
+        let blockData = [];
+        blockData = transPool.filter(each =>  validateMap[each.hash] === 1 );
+        console.log(blockData, "asd");
+        this.setState({block: blockData});
+        let nonce = 0;
+        let hash, timeStamp;
+        do{
+            nonce++;
+            timeStamp = Date.now();
+            hash = calculateHash({data: [...block], nonce, difficulty});
+            await wait(0);
+            this.setState({hash, timeStamp, nonce});
+        } while (hexToBinary(hash).substring(0, difficulty) !== "0".repeat(difficulty));
+        console.log(this.state.nonce);
     };
 
+    handleAddToChain = () => {
+        let {hash, timeStamp, nonce, block} = this.state;
+        BlockchainApi.addBlock({hash, timeStamp, transaction: [...block], nonce}).then(()=>{
+            console.log("done");
+        })
+    }
+    
     render(){
         const {hash, preHash, rootHash, nonce, transPool, block} = this.state;
         let mapKeys = Object.keys(this.state.validateMap);
@@ -140,7 +155,7 @@ export class CreateBlockRoute extends React.Component{
                     </button>
                     <div>
                         { 
-                            <button className="create-block-button" disabled={this.state.transPool.filter(each => mapKeys.includes(each.hash)).length < 2}  onClick={() => this.handleCreateBlock()}>Create Block</button>
+                            <button className="create-block-button" disabled={this.state.transPool.filter(each => mapKeys.includes(each.hash)).length < 2}  onClick={() => this.handleMineBlock()}>Create Block</button>
                            
                             /* 
                             Object.keys(this.state.validateMap).length === this.state.transPool.length && (

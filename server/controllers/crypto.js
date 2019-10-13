@@ -36,13 +36,10 @@ module.exports = () => {
     router.post("/blockchain/add-block", (req, res) => {
         let { transactions, hash, timeStamp, nonce } = req.body;
         myPool.removeTrans(transactions);
-        let newBlock = new Block({ ...req.body }).getBlockData();
-        Block.addBlock(newBlock);
-
-        return res.status(200).json({ newTran });
-        //Blockchain.addBlock({ hash, timeStamp, transactions, nonce });
-        //return res.status(200).json({ info: Blockchain.getBlockchainInfo() });
+        Blockchain.addBlock({ hash, timeStamp, transactions, nonce });
+        return res.status(200).json({ info: Blockchain.getBlockchainInfo() });
     });
+
     // router.post("/verify-blockchain", (req, res) => {
     //     let info = verifyBlockchain(Blockchain.getBlockchainInfo());
     //     return res.status(200).json({ ...info })

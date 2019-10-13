@@ -46,10 +46,6 @@ class Block {
         }
         return this.createMerkelRoot(splitArray(hashArr).map((arr) => hashPair(arr[0], arr[1])));
     }
-    addBlock(trans) {
-        this.transactions.push(trans);
-        fs.writeFileSync(path.resolve(__dirname, "../draft/block.txt"), JSON.stringify(this.transactions));
-    }
     getBlockData(){
         return{
             nonce: this.nonce,

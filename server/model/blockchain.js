@@ -14,14 +14,15 @@ class BlockChain {
         let tempArray = fs.readFileSync(path.resolve(__dirname, "../draft/chain.txt"), 'utf8');
         this.chain =  tempArray ? JSON.parse(tempArray) : [new createBlock().getBlockData()];
     }
-    getBlockChainInfo(){ return  {name: this.name, chain: this.chain, difficulty: this.difficulty}};
-    addBlock(name, difficulty, chain){
+    getBlockChainInfo(){ return {name: this.name, chain: this.chain, difficulty: this.difficulty}};
+    addBlock({hash, transactions, timeStamp, nonce}){
+        let chain = this.chain;
         let currBlock = chain[chain.length - 1];
-        let newBlock = new Block({
+        let newBlock = new createBlock({
             transactions, timeStamp, nonce, preHash: currBlock.hash
         });
         chain.push(newBlock.getBlockData());
-        fs.writeFileSync(path.resolve(__dirname,"./draft/chain.txt"), JSON.stringify(chain));
+        fs.writeFileSync(path.resolve(__dirname,"../draft/chain.txt"), JSON.stringify(this.chain));
     }
 } 
 const testBlockChain = new BlockChain ({

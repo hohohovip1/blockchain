@@ -15,8 +15,8 @@ class Pool{
         return this.transactions;
     }
     removeTrans(list){
-        this.transactions = this.transactions.filter(each => each.find(item => item.hash === each.hash));
-        fs.writeFileSync(path.resolve(__dirname,"../draft/pool.txt"));
+        this.transactions = this.transactions.filter(each => !list.find(item => item.hash === each.hash));
+        fs.writeFileSync(path.resolve(__dirname, "../draft/pool.txt"), JSON.stringify(this.transactions));
     }
 };
 const newPool = new Pool();

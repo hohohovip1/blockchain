@@ -60,7 +60,7 @@ export class CreateBlockRoute extends React.Component{
     handleMineBlock = async () => {
         let { transPool, validateMap, difficulty, block } = this.state;
         let blockData = [];
-        blockData = transPool.filter(each =>  validateMap[each.hash] === 1 );
+        blockData = transPool.filter(each =>  validateMap[each.hash] === 1);
         console.log(blockData, "asd");
         this.setState({block: blockData});
         let nonce = 0;
@@ -77,7 +77,8 @@ export class CreateBlockRoute extends React.Component{
 
     handleAddToChain = () => {
         let {hash, timeStamp, nonce, block} = this.state;
-        BlockchainApi.addBlock({hash, timeStamp, transaction: [...block], nonce}).then(()=>{
+        console.log("ok");
+        BlockchainApi.addBlock({hash, timeStamp, transactions: [...block], nonce}).then(()=>{
             console.log("done");
         })
     }
@@ -139,34 +140,40 @@ export class CreateBlockRoute extends React.Component{
                     </div>
                     <div className="create-block-part"> 
                         <h1>Create block</h1>
-                        {block.length ? block.map(each =>{
-                            return(
-                                <div>
+                        // {
+                            //block.length ? block.map(each =>{
+                        //     return(
+                        //         <div >
                                     
-                                </div>
-                            )
+                        //         </div>
+                        //     )
 
-                            })
+                        //     })
 
-                         : <p>dfsd</p>}
+                        //  : <p>dfsd</p>
+                    }
                     </div>
                     <button className="checkAll" onClick={() => this.handleCheckAll()}>
                         checkAll
                     </button>
                     <div>
-                        { 
-                            <button className="create-block-button" disabled={this.state.transPool.filter(each => mapKeys.includes(each.hash)).length < 2}  onClick={() => this.handleMineBlock()}>Create Block</button>
-                           
-                            /* 
-                            Object.keys(this.state.validateMap).length === this.state.transPool.length && (
-                                <button></button>
+                        
+                        
+                            {
+                            (Object.keys(this.state.validateMap).length === this.state.transPool.length) && (
+                                <>
+                                <button onClick={() => this.handleMineBlock()}>ok</button>
+                                    <button disabled={!nonce} onClick={() => this.handleAddToChain()}>Add</button>
+                                </>
                             )
+                                // <button className="create-block-button" disabled={this.state.transPool.filter(each => mapKeys.includes(each.hash)).length < 2} onClick={() => this.handleMineBlock()}>Create Block</button>
+                            // <button onClick={()=> this.handleAddToChain()}>Add</button>
 
-                             this.state.transPool.filter(each => mapKeys.includes(each.hash)).length === this.state.transPool.length  && (
-                                <button className="create-block-button" onClick={() => this.handleMineBlock}>Create Block</button>
-                        )
-                             */
-                        }
+                        //      this.state.transPool.filter(each => mapKeys.includes(each.hash)).length === this.state.transPool.length  && (
+                        //         <button className="create-block-button" onClick={() => this.handleMineBlock}>Create Block</button>
+                        // )
+                        }  
+                        
                      
                     </div>
                 </div>

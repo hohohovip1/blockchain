@@ -40,9 +40,13 @@ module.exports = () => {
         return res.status(200).json({ info: Blockchain.getBlockChainInfo() });
     });
 
-    // router.post("/verify-blockchain", (req, res) => {
-    //     let info = verifyBlockchain(Blockchain.getBlockchainInfo());
-    //     return res.status(200).json({ ...info })
-    // });
+    router.get("/blockchain/info", (req, res) => {
+        return res.status(200).json({ info: Blockchain.getBlockchainInfo() });
+    });
+    
+    router.post("/verify-blockchain", (req, res) => {
+        let info = verifyBlockchain(Blockchain.getBlockchainInfo());
+        return res.status(200).json({ ...info })
+    });
     return router;
 }

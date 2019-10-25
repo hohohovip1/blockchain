@@ -22,10 +22,12 @@ export class CreateBlockRoute extends React.Component{
             validateAll: false,
             mining: false,
             difficulty: 10,
-            block: []
+            block: [],
+            timeStamp: null
 
         };
         TransApi.getTransaction().then(({transPool}) => {this.setState({transPool})});
+        // BlockchainApi.getBlockchainInfo().then(({info}) => this.setState({difficulty: info.difficulty}));
     }
     handleCheckAll = () => {
         let {transPool} = this.state;
@@ -45,6 +47,13 @@ export class CreateBlockRoute extends React.Component{
 
         return 2;
     }
+    
+    handleAddTransaction = (trans) => {
+        let {block} = this.state;
+        block.push(trans);
+        this.setState({block});
+        console.log(block); 
+    }
 
     handleVerifySignature = (transaction) => {
         let {validateMap} = this.state;
@@ -59,10 +68,10 @@ export class CreateBlockRoute extends React.Component{
 
     handleMineBlock = async () => {
         let { transPool, validateMap, difficulty, block } = this.state;
-        let blockData = [];
-        blockData = transPool.filter(each =>  validateMap[each.hash] === 1);
-        console.log(blockData, "asd");
-        this.setState({block: blockData});
+        // let blockData = [];
+        // blockData = transPool.filter(each =>  validateMap[each.hash] === 1);
+        // console.log(blockData, "asd");
+        this.setState({mining: false});
         let nonce = 0;
         let hash, timeStamp;
         do{
@@ -72,7 +81,8 @@ export class CreateBlockRoute extends React.Component{
             await wait(0);
             this.setState({hash, timeStamp, nonce});
         } while (hexToBinary(hash).substring(0, difficulty) !== "0".repeat(difficulty));
-        console.log(this.state.nonce);
+        this.setState({mining: true});
+         console.log(this.state.mining);
     };
 
     handleAddToChain = () => {
@@ -84,7 +94,7 @@ export class CreateBlockRoute extends React.Component{
     }
     
     render(){
-        const {hash, preHash, rootHash, nonce, transPool, block} = this.state;
+        const {hash, preHash, rootHash, nonce, transPool, block, mining, timeStamp, difficulty} = this.state;
         let mapKeys = Object.keys(this.state.validateMap);
         return(
             <MainLayout>
@@ -124,10 +134,12 @@ export class CreateBlockRoute extends React.Component{
                                   
                                 <p className="label">Created At</p>
                                 <p className="value">{jsDate.getDate()}/{jsDate.getMonth()+1}/{jsDate.getFullYear()} {jsDate.getHours()+1}:{jsDate.getMinutes()+1}:{jsDate.getSeconds()+1}</p>
-
+                                {isValid === 2 ? (
                                 <button onClick={() => this.handleVerifySignature(each)}>
                                     Check
                                 </button>
+                                ) : (<button onClick = {() => this.handleAddTransaction(each)}>Add</button>)}
+                               
                                 <div className="is-valid">
                                     {isValid === 1 && "Valid!"}
                                     {isValid === 0 && "Invalid!"}
@@ -138,32 +150,47 @@ export class CreateBlockRoute extends React.Component{
                         }) : <p className="empty-pool">Transaction Pool empty!</p>
                         }
                     </div>
-                    <div className="create-block-part"> 
-                        <h1>Create block</h1>
-                        // {
-                            //block.length ? block.map(each =>{
-                        //     return(
-                        //         <div >
-                                    
-                        //         </div>
-                        //     )
+                    <div className="create-block-part">
+                        <h1 className="block-label">Create block</h1>
+                        <p className="label">Difficulty:</p>
+                        <p className="value">{difficulty || "Loading"}</p>
 
-                        //     })
+                        <p className="label">Hash:</p> 
+                        <p className="value">{hash || "Not mined yet"}</p>
 
-                        //  : <p>dfsd</p>
-                    }
+                        <p className="label">Timestamp:</p>
+                        <p className="value">{timeStamp ? (<>  {timeStamp}
+                            (<span className="text-danger"> {moment(new Date(timeStamp)).format("DD/MM/YYYY HH:mm:ss")}</span>)
+                        </>) : ("Not mined yet")}</p>  
+                        
+                        <p className="label">Nonce:</p>
+                        <p className="value">{nonce || "Not mined yet"}</p>
+
+                        <p className="label">Block transaction</p>
+                        <div className="block-value">{block.length ? (block.map(each => {
+                            return(
+                                <div className="block-transaction" key={each.hash}>
+                                    <p className="value">Hash: {each.hash}</p>
+
+                                    <p className="value">Ma nhan vien: {each.maNhanVien}</p>
+
+                                    <p className="value">Ma sach: {each.maSach}</p>
+
+                                    <p className="value">Nguoi muon: {each.nguoiMuon}</p>
+                                </div>
+                            )})) : ("Don't have transaction pending")}</div> 
                     </div>
                     <button className="checkAll" onClick={() => this.handleCheckAll()}>
-                        checkAll
+                        Check All
                     </button>
                     <div>
-                        
-                        
                             {
-                            (Object.keys(this.state.validateMap).length === this.state.transPool.length) && (
+                            // (Object.keys(this.state.validateMap).length === this.state.transPool.length)
+                            (Object.keys(this.state.validateMap).length >= 1) && (
                                 <>
-                                <button onClick={() => this.handleMineBlock()}>ok</button>
-                                    <button disabled={!nonce} onClick={() => this.handleAddToChain()}>Add</button>
+                                    {mining === false ? (<button  className="end-button" onClick={() => this.handleMineBlock()}>Mine Block</button>) : (
+                                        <button className="end-button" onClick={() => this.handleAddToChain()}>Add to chain</button>
+                                    )}
                                 </>
                             )
                                 // <button className="create-block-button" disabled={this.state.transPool.filter(each => mapKeys.includes(each.hash)).length < 2} onClick={() => this.handleMineBlock()}>Create Block</button>

@@ -12,7 +12,8 @@ export class CreateTransactionRoute extends React.Component {
             nguoiMuon: "",
             ngayMuon: "",
             ngayTra:"",
-            signature: ""
+            signature: "",
+            created: false
         };
     }
 

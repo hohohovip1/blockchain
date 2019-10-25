@@ -1,10 +1,9 @@
 .create-block{
     display: grid;
     grid-template-columns: 600px 800px;
-    grid-template-rows: 600px 50px;
     width: 100%;
     height: 700px;
-    grid-gap: 50px;
+    grid-gap: 25px;
     justify-content: center;
      h1{
             margin-bottom: 30px; 
@@ -40,8 +39,32 @@
     }
     .create-block-part{
         border: 1px solid black;
+        background: darken(#336B87,20%);
+        display: grid;
+        grid-template-columns: 120px calc(100% - 120px);
+        grid-template-rows: repeat(3, 80px);
+        font-size: 15px;
+        color: #90AFC5;
+        .block-label{
+            grid-column: 1 / 3;
+        }
+        .value{
+            word-wrap: break-word;
+        }
+        .block-transaction{
+            border: 1px solid white;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
     }
     .checkAll{
+        justify-self: center;
+    }
+    .end-button{
+        margin: 0 auto;
+        padding: 10px auto;
+        width: auto;
+        left: 300px;
         
     }
 }

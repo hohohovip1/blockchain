@@ -22,7 +22,7 @@ export class ViewChainRoute extends React.Component {
     }
 
     handleVerifyBlockchain(){
-        // let {validatingAll} = this.state;
+        let {errType, extra} = this.state;
         this.setState({validatingAll:true});
         VerifyApi.verifyChain().then((data) => {
             console.log(data);
@@ -31,7 +31,7 @@ export class ViewChainRoute extends React.Component {
     }
 
     render() {
-        let {info, chain, name, difficulty, validatingAll, isValid} = this.state;
+        let {info, chain, name, difficulty, validatingAll, isValid, errType, extra} = this.state;
         return (
             <div className="blockchain">
                 <MainLayout>
@@ -71,7 +71,8 @@ export class ViewChainRoute extends React.Component {
                                         </div>
                                     )
                                 })) : ("")}</div>
-                                
+                                {(errType === "invalid-relation" && extra.hash[1] === hash) && (<p className="error-info">Invalid: PreHash error</p>)}
+                                {(errType === "invalid-block" && extra.hash === hash) && (<p className="error-info">Invalid: Hash error</p>)}
                             </div>
                         )
                     })) : ("Don't have block in chain yet")}

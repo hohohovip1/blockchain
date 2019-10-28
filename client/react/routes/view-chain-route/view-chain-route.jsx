@@ -25,9 +25,13 @@ export class ViewChainRoute extends React.Component {
         let {errType, extra} = this.state;
         this.setState({validatingAll:true});
         VerifyApi.verifyChain().then((data) => {
-            console.log(data);
+            // console.log(data);
             this.setState({validatingAll: false, isValid: data.isValid, extra:data.extra, errType:data.errType });
         })
+    }
+    handleBlockchain(){
+        let {chain} = this.state;
+        BlockchainApi.signHashChain(chain).then(({hash, signature})=>{console.log(hash,signature,"ok")});
     }
 
     render() {
@@ -40,7 +44,10 @@ export class ViewChainRoute extends React.Component {
                         <h1>Blockchain</h1>
                         <h2>Chain name: {name}</h2>
                         <h2>Difficulty: {difficulty}</h2>
-                        <button className="verify-blockchain" disabled={validatingAll===true} onClick={() => this.handleVerifyBlockchain()}>Verify Blockchain</button>
+                         {isValid !== true ? (<button className="verify-blockchain" disabled={validatingAll === true} onClick={() => this.handleVerifyBlockchain()}>Verify Blockchain</button>) : (
+                             <button className="verify-blockchain" onClick={() => this.handleBlockchain()}>Hash blockchain</button>
+                         )}
+                        
                         <div className="chain-valid">
                                 {isValid === true && <h2>The chain is valid</h2>}
                                 {isValid === false && <h2>The chain isn't valid:</h2>}
@@ -50,7 +57,7 @@ export class ViewChainRoute extends React.Component {
                     {chain.length ? (chain.map(each => {
                         let { nonce, transactions, preHash, hash, merkelRootHash, timeStamp} = each;
                         return(
-                            <div className="block-node" key="chain.hash">
+                            <div className="block-node" key={chain.hash}>
                                 {!each.transactions.length && (<div className="g-block">Genesis Block</div>)}
                                 <p className="info">Nonce: {nonce}</p>
                                 <p className="info">Pre-hash: {preHash}</p>

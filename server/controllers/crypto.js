@@ -7,6 +7,7 @@ const Transaction = require("../model/transaction");
 const {getKeyPair} = require("../config/key");
 const keyPair = getKeyPair();
 const { verifySignature, verifyBlockchain } = require("../common/crypto");
+const sha256 = require("crypto-js/sha256");
 
 module.exports = () => {
     router.post("/transactions", (req, res) => {
@@ -48,5 +49,13 @@ module.exports = () => {
         let info = verifyBlockchain(Blockchain.getBlockchainInfo());
         return res.status(200).json({ ...info })
     });
+
+    router.post("/sign-hash-chain", (req, res) => {
+        let chain = stringify(req.body);
+        console.log(chain);
+        return res.status(200).json({signature: keyPair.sign(chain,"base64").toString(), hash: sha256(chain + signature + Date.now()).toString()});
+    });
+
+    // router.post("/verify-signature-chain", (req, res) => {
     return router;
 }

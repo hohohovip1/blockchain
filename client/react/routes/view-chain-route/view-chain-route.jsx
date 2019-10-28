@@ -73,7 +73,7 @@ export class ViewChainRoute extends React.Component {
                                 })) : ("")}</div>
                                 {(errType === "invalid-relation" && extra.hash[1] === hash) && (<p className="error-info">Invalid: PreHash error</p>)}
                                 {(errType === "invalid-block" && extra.hash === hash) && (<p className="error-info">Invalid: Hash error</p>)}
-                                {(errType === "invalid-genesis" && extra.hash === hash) && (<p className="error-info">Invalid: Hash error</p>)}
+                                {(errType === "invalid-genesis" && extra.hash === hash) && (<p className="error-info">Invalid: Genesis error</p>)}
                             </div>
                         )
                     })) : ("Don't have block in chain yet")}

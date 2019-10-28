@@ -21,13 +21,13 @@ export class CreateBlockRoute extends React.Component{
             validateMap: {},
             validateAll: false,
             mining: false,
-            difficulty: 10,
+            difficulty: 2,
             block: [],
             timeStamp: null
 
         };
         TransApi.getTransaction().then(({transPool}) => {this.setState({transPool})});
-        // BlockchainApi.getBlockchainInfo().then(({info}) => this.setState({difficulty: info.difficulty}));
+        BlockchainApi.getBlockchainInfo().then(({info}) => this.setState({difficulty: info.difficulty}));
     }
     handleCheckAll = () => {
         let {transPool} = this.state;
@@ -147,7 +147,14 @@ export class CreateBlockRoute extends React.Component{
                                 </div>
                             </div>
                             )
-                        }) : <p className="empty-pool">Transaction Pool empty!</p>
+                        }) : (
+                            <>
+                                <p className="empty-pool">Transaction Pool empty!</p>
+                                <button className="submit-btn btn btn-block btn-primary"
+                                    onClick={() => customHistory.push("/")}>Add more
+                                            </button>
+                            </>
+                            )
                         }
                     </div>
                     <div className="create-block-part">
@@ -166,7 +173,7 @@ export class CreateBlockRoute extends React.Component{
                         <p className="label">Nonce:</p>
                         <p className="value">{nonce || "Not mined yet"}</p>
 
-                        <p className="label">Block transaction</p>
+                        <p className="label">Block transactions</p>
                         <div className="block-value">{block.length ? (block.map(each => {
                             return(
                                 <div className="block-transaction" key={each.hash}>

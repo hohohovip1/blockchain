@@ -1,5 +1,7 @@
 
 const sha256 = require("crypto-js/sha256");
+const { getKeyPair } = require("../config/key");
+const keyPair = getKeyPair();
 
 let splitArray = (arr) => {
     let arrClone = [...arr];
@@ -29,10 +31,65 @@ let createMerkelRoot = (hashArr) => {
         return hashArr[0];
     }
     return this.createMerkelRoot(splitArray(hashArr).map((arr) => hashPair(arr[0], arr[1])));
+};
+
+const isGenesisBlock = ({nonce, transactions, preHash, hash, merkelRootHash, timeStamp}) => {
+    return nonce === 0 && transactions.length === 0 && preHash === "" && sha256(nonce + merkelRootHash + timeStamp).toString() === hash;
+};
+
+const isValidBlock = ({nonce, transactions, preHash, hash, merkelRootHash, timeStamp}) => {
+    let isValid = sha256(nonce + merkelRootHash + timeStamp).toString() === hash && createMerkelRoot(transactions.map(each => each.hash)) === merkelRootHash && transactions.reduce((result, cur) => {
+        return result && verifySignature(keyPair, cur);
+    },true);
+    return{
+        isValid,
+        extra: hash
+    }
 }
+
+const verifyBlockchain = (blockchain) => {
+    let { chain } = blockchain;
+    if (!isGenesisBlock(chain[0])) {
+        return {
+            isValid: false,
+            errType: "invalid-genesis",
+            extra: {
+                hash: chain[0].hash
+            }
+        };
+    }
+    for (let i = 1; i < chain.length; i++) {
+        const block = chain[i];
+        const previousBlock = chain[i - 1];
+        let checkBlock = isValidBlock(block);
+        if (!checkBlock.isValid)
+            return {
+                isValid: false,
+                errType: "invalid-block",
+                extra: {
+                    hash: checkBlock.extra
+                }
+            };
+        if (block.preHash !== previousBlock.hash)
+            return {
+                isValid: false,
+                errType: "invalid-relation",
+                extra: {
+                    hash: [previousBlock.hash, block.hash]
+                }
+            };
+
+    }
+    return {
+        isValid: true
+    };
+
+}
+
+
 module.exports = {
     verifySignature,
-    //verifyBlockchain,
+    verifyBlockchain,
     hashPair,
     splitArray,
     createMerkelRoot

@@ -19,7 +19,7 @@ export class CreateTransactionRoute extends React.Component {
 
     handleTransCreation = () => {
         let {maNhanVien,maSach,nguoiMuon,ngayMuon,ngayTra, signature} = this.state;
-        TransApi.createTransaction({ maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra, signature }).then(({ newTran }) => customHistory.push("/create-transaction")).catch(err => console.log(err));
+        TransApi.createTransaction({ maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra, signature }).then(({ newTran }) => {customHistory.push("/create-transaction"); this.setState({created: true})}).catch(err => console.log(err));
     }
 
     handleSign = () => {
@@ -30,7 +30,7 @@ export class CreateTransactionRoute extends React.Component {
     }
 
     render() {
-        let { maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra, signature } = this.state;
+        let { maNhanVien, maSach, nguoiMuon, ngayMuon, ngayTra, signature, created } = this.state;
         // console.log(this.state.sender);
         return (
             <MainLayout>
@@ -59,7 +59,8 @@ export class CreateTransactionRoute extends React.Component {
                             nguoiMuon: "",
                             ngayMuon: "",
                             ngayTra: "",
-                            signature: ""})}>
+                            signature: "",
+                            created: false})}>
                             Reset
                         </button>
                     ):(
@@ -71,6 +72,8 @@ export class CreateTransactionRoute extends React.Component {
                     <button className="create-part" onClick={this.handleTransCreation} disabled={!signature}>
                         Create
                     </button>
+                    {created == true ? (<p className="end-text">Created!</p>) : (<p></p>)}
+                
                     
                 </div>
             </MainLayout>

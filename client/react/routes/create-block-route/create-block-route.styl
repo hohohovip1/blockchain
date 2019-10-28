@@ -16,7 +16,7 @@
         font-size: 15px;
         background-color: darken(#336B87,20%)  ;
         padding: 5px;
-       
+        
         .transaction{
             display: grid;
             grid-template-columns: 100px calc(100% - 100px);
@@ -34,6 +34,18 @@
             }
             .is-valid{
                 text-align: center;
+                background-color: #007bff;
+                border-radius: 20px;
+            }
+        }
+        .valid{
+            .is-valid{
+                background-color: #28a745;
+            }
+        }
+        .invalid{
+            .is-valid{
+                background-color: #dc3545;
             }
         }
     }
@@ -41,8 +53,8 @@
         border: 1px solid black;
         background: darken(#336B87,20%);
         display: grid;
-        grid-template-columns: 120px calc(100% - 120px);
-        grid-template-rows: repeat(3, 80px);
+        grid-template-columns: 130px calc(100% - 130px);
+        grid-template-rows: 80px repeat(4, 50px) auto;
         font-size: 15px;
         color: #90AFC5;
         .block-label{
@@ -55,6 +67,9 @@
             border: 1px solid white;
             margin-bottom: 10px;
             padding: 5px;
+            .box-value{
+
+            }
         }
     }
     .checkAll{

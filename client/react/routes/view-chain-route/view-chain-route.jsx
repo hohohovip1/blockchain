@@ -16,7 +16,9 @@ export class ViewChainRoute extends React.Component {
            validatingAll: false,
            isValid: null,
            errType:null,
-           extra:null
+           extra:null,
+           hash:null,
+           signature:null
         };
         BlockchainApi.getBlockchainInfo().then(({info}) => {this.setState({info, chain: info.chain, name:info.name, difficulty:info.difficulty}); console.log(info);})
     }
@@ -31,11 +33,11 @@ export class ViewChainRoute extends React.Component {
     }
     handleBlockchain(){
         let {chain} = this.state;
-        BlockchainApi.signHashChain(chain).then(({hash, signature})=>{console.log(hash,signature,"ok")});
+        BlockchainApi.signHashChain(chain).then(({hash, signature})=>{console.log(hash,signature); this.setState({hash,signature})});
     }
 
     render() {
-        let {info, chain, name, difficulty, validatingAll, isValid, errType, extra} = this.state;
+        let {info, chain, name, difficulty, validatingAll, isValid, errType, extra, hash, signature} = this.state;
         return (
             <div className="blockchain">
                 <MainLayout>
@@ -47,12 +49,19 @@ export class ViewChainRoute extends React.Component {
                          {isValid !== true ? (<button className="verify-blockchain" disabled={validatingAll === true} onClick={() => this.handleVerifyBlockchain()}>Verify Blockchain</button>) : (
                              <button className="verify-blockchain" onClick={() => this.handleBlockchain()}>Hash blockchain</button>
                          )}
-                        
-                        <div className="chain-valid">
+                        {!(hash === null) ? (
+                        <>
+                        <p>Hash: {hash}</p>
+                        <p className="sign">Sign: {signature}</p>
+                        </>) : (
+                        <>
+                            <div className = "chain-valid">
                                 {isValid === true && <h2>The chain is valid</h2>}
                                 {isValid === false && <h2>The chain isn't valid:</h2>}
-                                {/* {console.log(isValid)} */}
+                            {/* {console.log(isValid)} */}
                         </div>    
+                        </>)}
+                        
                     </div>
                     {chain.length ? (chain.map(each => {
                         let { nonce, transactions, preHash, hash, merkelRootHash, timeStamp} = each;

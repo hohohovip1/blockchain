@@ -51,9 +51,10 @@ module.exports = () => {
     });
 
     router.post("/sign-hash-chain", (req, res) => {
-        let chain = stringify(req.body);
+        let chain = JSON.stringify(req.body);
+        let signature = keyPair.sign(chain, "base64").toString();
         console.log(chain);
-        return res.status(200).json({signature: keyPair.sign(chain,"base64").toString(), hash: sha256(chain + signature + Date.now()).toString()});
+        return res.status(200).json({signature, hash: sha256(chain + signature + Date.now()).toString()});
     });
 
     // router.post("/verify-signature-chain", (req, res) => {

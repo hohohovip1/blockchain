@@ -36,6 +36,11 @@ export class ViewChainRoute extends React.Component {
         BlockchainApi.signHashChain(chain).then(({hash, signature})=>{console.log(hash,signature); this.setState({hash,signature})});
     }
 
+    handleCheckSignature(){
+        let {hash, signature, chain} = this.setState;
+        VerifyApi.verifySignatureChain({chain, signature}).then(({isValid}) => {console.log(isValid,"ok")});
+    }
+
     render() {
         let {info, chain, name, difficulty, validatingAll, isValid, errType, extra, hash, signature} = this.state;
         return (
@@ -51,8 +56,9 @@ export class ViewChainRoute extends React.Component {
                          )}
                         {!(hash === null) ? (
                         <>
-                        <p>Hash: {hash}</p>
+                        <p>Hash: <input type="text" onChange={e => this.setState({hash:e.target.value})} value={hash}/></p>
                         <p className="sign">Sign: {signature}</p>
+                        <button className="check" onClick={() => this.handleCheckSignature()} >Check</button>
                         </>) : (
                         <>
                             <div className = "chain-valid">

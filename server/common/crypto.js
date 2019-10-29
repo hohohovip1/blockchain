@@ -23,6 +23,12 @@ const verifySignature = (keyPair, transaction) => {
     return keyPair.verify(maNhanVien + " " + maSach + " " + nguoiMuon, signature, "utf8", "base64");
 };
 
+const verifySignatureChain = (keyPair, data) => {
+    let { chain, signature } = data;
+    let newChain = JSON.stringify(chain);
+    return keyPair.verify(newChain, signature, "utf8", "base64");
+};
+
 let createMerkelRoot = (hashArr) => {
     if (hashArr.length === 0) {
         return null;
@@ -92,5 +98,6 @@ module.exports = {
     verifyBlockchain,
     hashPair,
     splitArray,
-    createMerkelRoot
+    createMerkelRoot,
+    verifySignatureChain
 };

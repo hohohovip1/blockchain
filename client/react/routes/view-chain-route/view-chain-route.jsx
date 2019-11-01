@@ -18,7 +18,8 @@ export class ViewChainRoute extends React.Component {
            errType:null,
            extra:null,
            hash:null,
-           signature:null
+           signature:null,
+           isValidChain:null
         };
         BlockchainApi.getBlockchainInfo().then(({info}) => {this.setState({info, chain: info.chain, name:info.name, difficulty:info.difficulty}); console.log(info);})
     }
@@ -37,12 +38,13 @@ export class ViewChainRoute extends React.Component {
     }
 
     handleCheckSignature(){
-        let {hash, signature, chain} = this.setState;
-        VerifyApi.verifySignatureChain({chain, signature}).then(({isValid}) => {console.log(isValid,"ok")});
+        let {hash, signature, chain} = this.state;
+        // console.log(chain, signature);
+        VerifyApi.verifySignatureChain({chain, hash, signature}).then(({isValid}) => {this.setState({isValidChain:isValid})});
     }
 
     render() {
-        let {info, chain, name, difficulty, validatingAll, isValid, errType, extra, hash, signature} = this.state;
+        let {info, chain, name, difficulty, validatingAll, isValid, errType, extra, hash, signature, isValidChain} = this.state;
         return (
             <div className="blockchain">
                 <MainLayout>
@@ -59,6 +61,8 @@ export class ViewChainRoute extends React.Component {
                         <p>Hash: <input type="text" onChange={e => this.setState({hash:e.target.value})} value={hash}/></p>
                         <p className="sign">Sign: {signature}</p>
                         <button className="check" onClick={() => this.handleCheckSignature()} >Check</button>
+                        {isValidChain === true && <h1>signature correct</h1>}
+                        {isValidChain === false && <h1>signature  isn't correct</h1>}
                         </>) : (
                         <>
                             <div className = "chain-valid">

@@ -22,6 +22,10 @@ export class Navbar extends React.Component{
             {
                 label: "View Chain",
                 url: "/view-chain"
+            },
+            {
+                label: "Hash Img",
+                url: "/hash-img"
             }
         ];
   

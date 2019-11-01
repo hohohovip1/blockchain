@@ -5,6 +5,7 @@ export const customHistory = createBrowserHistory();
 import {CreateTransactionRoute} from "./create-transaction-route/create-transaction-route";
 import {CreateBlockRoute} from "./create-block-route/create-block-route";
 import {ViewChainRoute} from "./view-chain-route/view-chain-route";
+import {HashImgRoute} from "./hash-img-route/hash-img-route";
 
 export class MainRoute extends React.Component {
     constructor(props) {
@@ -28,6 +29,7 @@ export class MainRoute extends React.Component {
                         <Route exact path={"/create-transaction"} component={CreateTransactionRoute} />
                         <Route exact path={"/"} component={CreateBlockRoute} />
                         <Route exact path={"/view-chain"} component={ViewChainRoute} />
+                        <Route exact path={"/hash-img"} component={HashImgRoute}/>
                     </Switch>
                 </Router>
 

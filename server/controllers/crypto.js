@@ -58,8 +58,8 @@ module.exports = () => {
         return res.status(200).json({hash, signature});
     });
 
-    router.post("/sign-hash-img", (req, res) => {
-        let hash = hashImg();
+    router.post("/sign-hash-img", async (req, res) => {
+        let hash = await hashImg();
         return res.status(200).json({ hash, signature: keyPair.sign(hash,"base64").toString() });
     });
 

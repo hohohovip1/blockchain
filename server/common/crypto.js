@@ -2,8 +2,11 @@
 const sha256 = require("crypto-js/sha256");
 const { getKeyPair } = require("../config/key");
 const keyPair = getKeyPair();
+const path = require("path");
 const { imageHash } = require('image-hash');
-const logo = {uri: '../img/1.jpeg'};
+
+
+//the toi moi dang hoi toi dua theo thang dad
 
 let splitArray = (arr) => {
     let arrClone = [...arr];
@@ -42,16 +45,14 @@ let createMerkelRoot = (hashArr) => {
     return this.createMerkelRoot(splitArray(hashArr).map((arr) => hashPair(arr[0], arr[1])));
 };
 
-const hashImg = () => {
-    let result;
-    imageHash(logo, 16, true, (error, data) => {
-        if (error) throw error;
+const hashImg = () => new Promise((resolve) => {
+    imageHash(path.resolve(__dirname, '../img/1.jpg'), 16, true, (error, data) => {
+        if (error) reject(error);
         console.log(data);
-        // 0773063f063f36070e070a070f378e7f1f000fff0fff020103f00ffb0f810ff0
-        result = data;
+        resolve(data)
     });
-    return result;
-}
+   
+})//out day
 
 const isGenesisBlock = ({nonce, transactions, preHash, hash, merkelRootHash, timeStamp}) => {
     return nonce === 0 && transactions.length === 0 && preHash === "" && sha256(nonce + merkelRootHash + timeStamp).toString() === hash;

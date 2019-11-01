@@ -6,5 +6,5 @@ export const BlockchainApi = {
     addBlock: (data) => offlineApi.post("/blockchain/add-block", data),
     verifyChain: data => offlineApi.post("/verify-blockchain", data),
     signHashChain: data => offlineApi.post("/sign-hash-chain",data),
-    singHashImg: data => offlineApi.post("/sign-hash-img", data)
+    signHashImg: data => offlineApi.post("/sign-hash-img", data)
 }

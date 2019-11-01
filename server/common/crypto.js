@@ -4,9 +4,7 @@ const { getKeyPair } = require("../config/key");
 const keyPair = getKeyPair();
 const path = require("path");
 const { imageHash } = require('image-hash');
-
-
-//the toi moi dang hoi toi dua theo thang dad
+const fs = require ("fs");
 
 let splitArray = (arr) => {
     let arrClone = [...arr];
@@ -35,6 +33,14 @@ const verifySignatureChain = (keyPair, data) => {
     return keyPair.verify(hash, signature, "utf8", "base64");
 };
 
+const verifySignImg = (keyPair, data) => {
+    let {signature}  = data;
+    let hash = fs.readFileSync(path.resolve(__dirname, "../draft/picture.txt"), 'utf8');
+    console.log(hash);
+    return keyPair.verify(JSON.parse(hash), signature, "utf8", "base64");
+};
+
+
 let createMerkelRoot = (hashArr) => {
     if (hashArr.length === 0) {
         return null;
@@ -49,6 +55,7 @@ const hashImg = () => new Promise((resolve) => {
     imageHash(path.resolve(__dirname, '../img/1.jpg'), 16, true, (error, data) => {
         if (error) reject(error);
         console.log(data);
+        fs.writeFileSync(path.resolve(__dirname, "../draft/picture.txt"), JSON.stringify(data));
         resolve(data)
     });
    
@@ -115,5 +122,6 @@ module.exports = {
     splitArray,
     createMerkelRoot,
     verifySignatureChain,
-    hashImg
+    hashImg,
+    verifySignImg
 };
